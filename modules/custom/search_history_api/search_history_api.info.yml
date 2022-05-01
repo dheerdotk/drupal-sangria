@@ -1,0 +1,5 @@
+name: Search History API
+description: Define's a custom REST Resource for Search History Terms Get
+package: Custom
+type: module
+core: 8.x
