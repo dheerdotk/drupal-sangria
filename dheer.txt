@@ -1,0 +1,1 @@
+This is the test file to check git check in from drupal server.
