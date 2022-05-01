@@ -1,2 +1,3 @@
 This is the test file to check git check in from drupal server
 Testing more changes.
+Streamling the check-in  process from server to git hub.
