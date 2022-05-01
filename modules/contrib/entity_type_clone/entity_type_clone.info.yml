@@ -1,0 +1,12 @@
+name: Entity Type Clone
+type: module
+description: This module provide option to clone entity types.
+core: 8.x
+core_version_requirement: ^8 || ^9
+package: Other
+configure: entity_type_clone.type
+
+# Information added by Drupal.org packaging script on 2021-05-21
+version: '8.x-1.7'
+project: 'entity_type_clone'
+datestamp: 1621579349
