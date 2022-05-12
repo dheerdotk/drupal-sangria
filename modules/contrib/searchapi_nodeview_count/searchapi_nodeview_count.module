@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains searchapi_nodeview_count.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function searchapi_nodeview_count_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the searchapi_nodeview_count module.
+    case 'help.page.searchapi_nodeview_count':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Provides a field to index node view count in Search Api.') . '</p>';
+      return $output;
+
+    default:
+  }
+}

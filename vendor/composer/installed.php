@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => NULL,
+        'reference' => 'b51101b0bad63419f3856e04214d8bd96b6ce439',
         'name' => 'drupal/legacy-project',
         'dev' => true,
     ),
@@ -773,12 +773,12 @@
             ),
         ),
         'drupal/legacy-project' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => NULL,
+            'reference' => 'b51101b0bad63419f3856e04214d8bd96b6ce439',
             'dev_requirement' => false,
         ),
         'drupal/link' => array(
@@ -1028,6 +1028,15 @@
             'install_path' => __DIR__ . '/../../modules/contrib/search_api_stats',
             'aliases' => array(),
             'reference' => '8.x-1.0-alpha2',
+            'dev_requirement' => false,
+        ),
+        'drupal/searchapi_nodeview_count' => array(
+            'pretty_version' => '1.0.0',
+            'version' => '1.0.0.0',
+            'type' => 'drupal-module',
+            'install_path' => __DIR__ . '/../../modules/contrib/searchapi_nodeview_count',
+            'aliases' => array(),
+            'reference' => '1.0.0',
             'dev_requirement' => false,
         ),
         'drupal/serialization' => array(

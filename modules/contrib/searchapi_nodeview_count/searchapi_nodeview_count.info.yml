@@ -1,0 +1,13 @@
+type: module
+name: 'Search Api Node View Count'
+description: 'Provides a field to index node view count in Search Api'
+package: Search
+core_version_requirement: ^8 || ^9
+dependencies:
+  - drupal:statistics
+  - search_api:search_api
+
+# Information added by Drupal.org packaging script on 2020-09-16
+version: '1.0.0'
+project: 'searchapi_nodeview_count'
+datestamp: 1600233896
