@@ -1,0 +1,5 @@
+name: Search History API
+type: module
+description: Module for implementing for Search History Terms Get
+core_version_requirement: ^8.8 || ^9
+package: Example

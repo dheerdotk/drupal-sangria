@@ -45,6 +45,7 @@
         "drupal/search_api_autocomplete": "^1.6",
         "drupal/search_api_sorts": "^1.0",
         "drupal/search_api_stats": "^1.0@alpha",
+        "drupal/searchapi_nodeview_count": "^1.0",
         "drupal/taxonomy_import": "^2.0",
         "drupal/taxonomy_manager": "^2.0",
         "drupal/token": "^1.10",

@@ -3584,6 +3584,54 @@
             "install-path": "../../modules/contrib/search_api_stats"
         },
         {
+            "name": "drupal/searchapi_nodeview_count",
+            "version": "1.0.0",
+            "version_normalized": "1.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/searchapi_nodeview_count.git",
+                "reference": "1.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/searchapi_nodeview_count-1.0.0.zip",
+                "reference": "1.0.0",
+                "shasum": "9d7e68422c7dbb32fe958f746dfead7c1cffc252"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9",
+                "drupal/search_api": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "1.0.0",
+                    "datestamp": "1600233895",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "drupal-ramesh",
+                    "homepage": "https://www.drupal.org/user/3543023"
+                }
+            ],
+            "description": "Provides a field to index node view count in Search Api",
+            "homepage": "https://www.drupal.org/project/searchapi_nodeview_count",
+            "support": {
+                "source": "https://git.drupalcode.org/project/searchapi_nodeview_count"
+            },
+            "install-path": "../../modules/contrib/searchapi_nodeview_count"
+        },
+        {
             "name": "drupal/taxonomy_import",
             "version": "2.0.5",
             "version_normalized": "2.0.5.0",
