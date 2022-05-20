@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "183a91e178b7f741db958d3381c8d151",
+    "content-hash": "6a954d1b8438c6294630b414f672f55c",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1488,6 +1488,55 @@
             }
         },
         {
+            "name": "drupal/asset_injector",
+            "version": "2.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/asset_injector.git",
+                "reference": "8.x-2.10"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/asset_injector-8.x-2.10.zip",
+                "reference": "8.x-2.10",
+                "shasum": "c7912ce49cdfbb517bfecc6301d417f0c9ab9833"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9.0 || ^10.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-2.10",
+                    "datestamp": "1647880963",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Mike Decker",
+                    "homepage": "https://www.drupal.org/u/pookmish"
+                },
+                {
+                    "name": "Axel Rutz",
+                    "homepage": "https://www.drupal.org/u/axelrutz"
+                }
+            ],
+            "description": "Adds CSS or JS to the page output based on configurable rules.",
+            "homepage": "http://drupal.org/project/asset_injector",
+            "support": {
+                "source": "https://git.drupalcode.org/project/asset_injector",
+                "issues": "https://www.drupal.org/project/issues/asset_injector"
+            }
+        },
+        {
             "name": "drupal/auto_entitylabel",
             "version": "3.0.0-beta4",
             "source": {
@@ -2497,6 +2546,52 @@
             "homepage": "https://www.drupal.org/project/flag",
             "support": {
                 "source": "https://git.drupalcode.org/project/flag"
+            }
+        },
+        {
+            "name": "drupal/flocblock",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/flocblock.git",
+                "reference": "1.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/flocblock-1.0.0.zip",
+                "reference": "1.0.0",
+                "shasum": "9551d576ae4e9bfe0d6163548a03b4621dfae49f"
+            },
+            "require": {
+                "drupal/core": "^8.7.7 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "1.0.0",
+                    "datestamp": "1618496627",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Antonio Savorelli (antiorario)",
+                    "homepage": "https://www.drupal.org/u/antiorario",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Adds a Permissions-Policy header to block G**gle FLoC.",
+            "homepage": "https://drupal.org/project/flocblock",
+            "support": {
+                "source": "https://git.drupalcode.org/project/flocblock",
+                "issues": "https://drupal.org/project/issues/flocblock"
             }
         },
         {

@@ -1,0 +1,19 @@
+{
+  "name": "drupal/flocblock",
+  "description": "Adds a Permissions-Policy header to block G**gle FLoC.",
+  "type": "drupal-module",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+      {
+          "name": "Antonio Savorelli (antiorario)",
+          "homepage": "https://www.drupal.org/u/antiorario",
+          "role": "Maintainer"
+      }
+  ],
+  "homepage": "https://drupal.org/project/flocblock",
+  "support": {
+      "issues": "https://drupal.org/project/issues/flocblock",
+      "source": "https://git.drupalcode.org/project/flocblock"
+  },
+  "require": {}
+}
