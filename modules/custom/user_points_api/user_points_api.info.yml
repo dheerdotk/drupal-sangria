@@ -1,0 +1,5 @@
+name: User Points API
+type: module
+description: Module for implementing for User Points Terms Get
+core_version_requirement: ^8.8 || ^9
+package: Example

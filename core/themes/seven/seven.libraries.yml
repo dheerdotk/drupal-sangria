@@ -64,6 +64,13 @@ global-styling:
   dependencies:
     - system/admin
 
+global-scripts:
+  version: VERSION
+  js:
+    js/userpoints.js: {}
+  dependencies:
+    - core/jquery
+    
 node-form:
   version: VERSION
   css:

@@ -22,7 +22,8 @@ libraries:
   - bartik/classy.messages
   - core/normalize
   - bartik/global-styling
-
+  - bartik/global-scripts
+  
 libraries-extend:
   core/drupal.dialog:
     - bartik/classy.dialog
