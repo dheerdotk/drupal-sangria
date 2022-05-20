@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'b51101b0bad63419f3856e04214d8bd96b6ce439',
+        'reference' => 'dc3518d59cf433cbef2979155d4f0158f9650ae1',
         'name' => 'drupal/legacy-project',
         'dev' => true,
     ),
@@ -210,6 +210,15 @@
             'replaced' => array(
                 0 => '9.3.12',
             ),
+        ),
+        'drupal/asset_injector' => array(
+            'pretty_version' => '2.10.0',
+            'version' => '2.10.0.0',
+            'type' => 'drupal-module',
+            'install_path' => __DIR__ . '/../../modules/contrib/asset_injector',
+            'aliases' => array(),
+            'reference' => '8.x-2.10',
+            'dev_requirement' => false,
         ),
         'drupal/auto_entitylabel' => array(
             'pretty_version' => '3.0.0-beta4',
@@ -679,6 +688,15 @@
             'reference' => '8.x-4.0-beta3',
             'dev_requirement' => false,
         ),
+        'drupal/flocblock' => array(
+            'pretty_version' => '1.0.0',
+            'version' => '1.0.0.0',
+            'type' => 'drupal-module',
+            'install_path' => __DIR__ . '/../../modules/contrib/flocblock',
+            'aliases' => array(),
+            'reference' => '1.0.0',
+            'dev_requirement' => false,
+        ),
         'drupal/forum' => array(
             'dev_requirement' => false,
             'replaced' => array(
@@ -778,7 +796,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'b51101b0bad63419f3856e04214d8bd96b6ce439',
+            'reference' => 'dc3518d59cf433cbef2979155d4f0158f9650ae1',
             'dev_requirement' => false,
         ),
         'drupal/link' => array(
