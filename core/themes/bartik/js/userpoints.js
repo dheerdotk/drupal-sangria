@@ -41,7 +41,8 @@ function postNode(csrfToken, node, form1) {
 }
 
 
-jQuery('#edit-submit').click(function(e) {
+//jQuery('#edit-submit').click(function(e) {
+jQuery('.form-submit').click(function(e) {
   e.preventDefault();
   var options = JSON.parse(document.querySelector('script[data-drupal-selector="drupal-settings-json"]').innerText);
   var path_split = options.path.currentPath.toString().split("/");  
@@ -49,10 +50,9 @@ jQuery('#edit-submit').click(function(e) {
   var form1 = jQuery(this).closest("form");
   var user_id = form1.attr('id');
   var content_types = ["node-recipes-edit-form", "node-health-journeys-edit-form", "node-self-cure-blogs-edit-form", "node-question-answers-edit-form", "node-answers-edit-form"]
-  
+  var comment_types = ["comment-form"]
     if(jQuery.inArray(user_id, content_types) !== -1)
     {
-      console.log("inside  checking");
       var entity_type = "";
       switch(user_id){
         case "node-recipes-edit-form" : 
@@ -81,11 +81,34 @@ jQuery('#edit-submit').click(function(e) {
           uid: jQuery('#edit-uid-0-target-id').val(),
           createdDate: jQuery('#edit-field-published-at-0-value-date').val(),
           createdTime: jQuery('#edit-field-published-at-0-value-time').val(),
+          youtubeLink : jQuery('#edit-field-youtube-link-0-uri').val(),
           entity_id: entity_id         
       };
       getCsrfToken(function (csrfToken) {
         postNode(csrfToken, newNode, form1)
       });
+  }
+  else if(jQuery.inArray(user_id, comment_types) !== -1)
+  {
+    var isPublished = "0";
+    if (jQuery("#edit-status-1").is(":checked")) {
+      isPublished = jQuery('#edit-status-1').val();
+    }
+    else if (jQuery("#edit-status-0").is(":checked")) {
+      isPublished = jQuery('#edit-status-0').val();
+    }
+    var newNode = {         
+      entityType: entity_type,
+      isPublished: isPublished,
+      uid: jQuery('#edit-uid').val(),
+      // createdDate: jQuery('#edit-field-published-at-0-value-date').val(),
+      // createdTime: jQuery('#edit-field-published-at-0-value-time').val(),
+      // youtubeLink : jQuery('#edit-field-youtube-link-0-uri').val(),
+      entity_id: entity_id         
+    };
+    getCsrfToken(function (csrfToken) {
+      postNode(csrfToken, newNode, form1)
+    });
   }
   else{
     jQuery(this).closest("form").submit();
