@@ -41,8 +41,8 @@ function postNode(csrfToken, node, form1) {
 }
 
 
-//jQuery('#edit-submit').click(function(e) {
-jQuery('.form-submit').click(function(e) {
+jQuery("#node-recipes-edit-form #edit-submit, #node-health-journeys-edit-form #edit-submit, #node-self-cure-blogs-edit-form #edit-submit, #node-question-answers-edit-form #edit-submit, #node-answers-edit-form #edit-submit").click(function(e) {
+  //jQuery('.form-submit').click(function(e) {
   e.preventDefault();
   var options = JSON.parse(document.querySelector('script[data-drupal-selector="drupal-settings-json"]').innerText);
   var path_split = options.path.currentPath.toString().split("/");  
@@ -88,30 +88,31 @@ jQuery('.form-submit').click(function(e) {
         postNode(csrfToken, newNode, form1)
       });
   }
-  else if(jQuery.inArray(user_id, comment_types) !== -1)
-  {
-    var isPublished = "0";
-    if (jQuery("#edit-status-1").is(":checked")) {
-      isPublished = jQuery('#edit-status-1').val();
-    }
-    else if (jQuery("#edit-status-0").is(":checked")) {
-      isPublished = jQuery('#edit-status-0').val();
-    }
-    var newNode = {         
-      entityType: entity_type,
-      isPublished: isPublished,
-      uid: jQuery('#edit-uid').val(),
-      // createdDate: jQuery('#edit-field-published-at-0-value-date').val(),
-      // createdTime: jQuery('#edit-field-published-at-0-value-time').val(),
-      // youtubeLink : jQuery('#edit-field-youtube-link-0-uri').val(),
-      entity_id: entity_id         
-    };
-    getCsrfToken(function (csrfToken) {
-      postNode(csrfToken, newNode, form1)
-    });
-  }
+  // else if(jQuery.inArray(user_id, comment_types) !== -1)
+  // {
+  //   var isPublished = "0";
+  //   if (jQuery("#edit-status-1").is(":checked")) {
+  //     isPublished = jQuery('#edit-status-1').val();
+  //   }
+  //   else if (jQuery("#edit-status-0").is(":checked")) {
+  //     isPublished = jQuery('#edit-status-0').val();
+  //   }
+  //   var newNode = {         
+  //     entityType: entity_type,
+  //     isPublished: isPublished,
+  //     uid: jQuery('#edit-uid').val(),
+  //     // createdDate: jQuery('#edit-field-published-at-0-value-date').val(),
+  //     // createdTime: jQuery('#edit-field-published-at-0-value-time').val(),
+  //     // youtubeLink : jQuery('#edit-field-youtube-link-0-uri').val(),
+  //     entity_id: entity_id         
+  //   };
+  //   getCsrfToken(function (csrfToken) {
+  //     postNode(csrfToken, newNode, form1)
+  //   });
+  // }
   else{
     jQuery(this).closest("form").submit();
+    return true;
   }
 });
 jQuery(document).on('change', '#edit-field-is-published', function (e) {

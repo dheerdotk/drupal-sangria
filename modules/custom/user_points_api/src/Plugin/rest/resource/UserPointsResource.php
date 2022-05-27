@@ -34,15 +34,12 @@ class UserPointsResource extends ResourceBase {
    * Responds to entity GET requests.
    * @return \Drupal\rest\ResourceResponse
    */
-//   public function post() {
-//     $response = ['message' => 'Hello, this is a rest service'];
-//     return new ResourceResponse($response);
-// }
 
   public function get() {
    
     $database = \Drupal::database();
-    $query = $database->query("SELECT * from flagging");
+    $userId = \Drupal::request()->query->get('userId');
+    $query = $database->query("SELECT * from  user_achievements WHERE userId='".$userId."'");
     $result = $query->fetchAll();
     return new JsonResponse($result);
   }
@@ -86,9 +83,9 @@ class UserPointsResource extends ResourceBase {
         $entity_type = array("'Publish answer'");
         break;
 
-      case ($decoded["entityType"] == "comment"): 
-        $entity_type = array("'Publish comment give'", "'Publish comment receive'");
-        break;
+      // case ($decoded["entityType"] == "comment"): 
+      //   $entity_type = array("'Publish comment give'", "'Publish comment receive'");
+      //   break;
 
       default :
         $entity_type = "";
@@ -101,62 +98,51 @@ class UserPointsResource extends ResourceBase {
     
     if($res_lookup)
     {
-      
-      if($decoded["entityType"] == "comment"){                
-        $user_id = $give_uid;
-      }
-      else{
-        $user_id = $uid;
-      }
-
+      // if($decoded["entityType"] == "comment"){                
+      //   $user_id = $give_uid;
+      // }
+      // else{
+      //   $user_id = $uid;
+      // }
+      $user_id = $give_uid;  
       $query = $database->query("SELECT * from {user_points} where uid='".$user_id."' and entity_id='".$decoded["entity_id"]."' and actionid='".$res_lookup[0]->id."'");
       $res_points = $query->fetchAll();
       if($res_points)
       {
-        // $result = $database->update('user_points')
-        // ->fields([
-        //   'points' => $points,
-        // ])
-        // ->condition('id', $res_points[0]->id, '=')
-        // ->execute();
-        // if($result)
-        //   $success= "User points updated successfully";
-
-        if($decoded["entityType"] == "comment"){
-          $publishQuery = $database->query("SELECT field_is_published_value from {node__field_is_published} where entity_id='".$decoded["entity_id"]."'");
-        }
-        else{
-          $publishQuery = $database->query("SELECT status as field_is_published_value from {comment_field_data} where entity_id='".$decoded["entity_id"]."'");
-        }
+        // if($decoded["entityType"] == "comment"){
+        //   $publishQuery = $database->query("SELECT field_is_published_value from {node__field_is_published} where entity_id='".$decoded["entity_id"]."'");
+        // }
+        // else{
+             //$publishQuery = $database->query("SELECT status as field_is_published_value from {node__field_is_published} where entity_id='".$decoded["entity_id"]."'");
+        //}
+        $publishQuery = $database->query("SELECT field_is_published_value from {node__field_is_published} where entity_id='".$decoded["entity_id"]."'");
         $res_publish = $publishQuery->fetchAll();
-        //if($res_publish[0]->field_is_published_value != $decoded['isPublished']){
-          //if($decoded["entityType"] == "comment")
-          if($decoded['isPublished']==1 && $res_publish[0]->field_is_published_value!=1)
-          {
-            if($decoded["entityType"] == "comment"){
-              foreach ($res_lookup as $action){
-                if($action->name == "Publish comment give"){                
-                  $user_id = $give_uid;
-                  $owner = 0;
+        if($decoded['isPublished']==1 && $res_publish[0]->field_is_published_value!=1)
+        {
+            // if($decoded["entityType"] == "comment"){
+            //   foreach ($res_lookup as $action){
+            //     if($action->name == "Publish comment give"){                
+            //       $user_id = $give_uid;
+            //       $owner = 0;
                   
-                }
-                else{
-                  $user_id = $uid;
-                  $owner = 1;
-                }
-                $result = $database->insert('user_points')
-                          ->fields(['actionid', 'entity_id', 'uid', 'points', 'created', 'owner'])
-                          ->values([
-                            'actionid' => $action->id,
-                            'entity_id' => $decoded["entity_id"],
-                            'uid' => $user_id ,
-                            'points' => $action->points,
-                            'created' => date("Y-m-d H:i:s", time()),
-                            'owner' => $owner  ])
-                          ->execute();
-              }
-            }
-            else{
+            //     }
+            //     else{
+            //       $user_id = $uid;
+            //       $owner = 1;
+            //     }
+            //     $result = $database->insert('user_points')
+            //               ->fields(['actionid', 'entity_id', 'uid', 'points', 'created', 'owner'])
+            //               ->values([
+            //                 'actionid' => $action->id,
+            //                 'entity_id' => $decoded["entity_id"],
+            //                 'uid' => $user_id ,
+            //                 'points' => $action->points,
+            //                 'created' => date("Y-m-d H:i:s", time()),
+            //                 'owner' => $owner  ])
+            //               ->execute();
+            //   }
+            // }
+            //else{
               $points = $res_lookup[0]->points;
               $created = $decoded["createdDate"]." ".$decoded["createdTime"];
               $result = $database->insert('user_points')
@@ -164,42 +150,40 @@ class UserPointsResource extends ResourceBase {
                         ->values([
                           'actionid' => $res_lookup[0]->id,
                           'entity_id' => $decoded["entity_id"],
-                          'uid' => $uid ,
+                          'uid' => $user_id,//$uid ,
                           'points' => $points,
                           'created' => $created,
                           'owner' => 1  ])
                         ->execute();
-            }
+            //}
             if($result)
               $success= "User points added successfully";
           }
-          //elseif($decoded['isPublished']==0){
           elseif($res_publish[0]->field_is_published_value==1 && $decoded['isPublished']!=1)  
           {
-            //$points = 0;
-            if($decoded["entityType"] == "comment"){
-              foreach ($res_lookup as $action){
-                if($action->name =='Publish comment give'){               
-                  $user_id = $give_uid;
-                  $owner = 0;                  
-                }
-                else{
-                  $user_id = $uid;
-                  $owner = 1;
-                }
-                $result = $database->insert('user_points')
-                          ->fields(['actionid', 'entity_id', 'uid', 'points', 'created', 'owner'])
-                          ->values([
-                            'actionid' => $action->id,
-                            'entity_id' => $decoded["entity_id"],
-                            'uid' => $user_id ,
-                            'points' => -$action->points,
-                            'created' => NULL,
-                            'owner' => $owner  ])
-                          ->execute();
-              }
-            }
-            else{
+            // if($decoded["entityType"] == "comment"){
+            //   foreach ($res_lookup as $action){
+            //     if($action->name =='Publish comment give'){               
+            //       $user_id = $give_uid;
+            //       $owner = 0;                  
+            //     }
+            //     else{
+            //       $user_id = $uid;
+            //       $owner = 1;
+            //     }
+            //     $result = $database->insert('user_points')
+            //               ->fields(['actionid', 'entity_id', 'uid', 'points', 'created', 'owner'])
+            //               ->values([
+            //                 'actionid' => $action->id,
+            //                 'entity_id' => $decoded["entity_id"],
+            //                 'uid' => $user_id ,
+            //                 'points' => -$action->points,
+            //                 'created' => NULL,
+            //                 'owner' => $owner  ])
+            //               ->execute();
+            //   }
+            // }
+            // else{
               $points = -$res_lookup[0]->points;
               $created = NULL;
               $result = $database->insert('user_points')
@@ -207,57 +191,50 @@ class UserPointsResource extends ResourceBase {
                         ->values([
                           'actionid' => $res_lookup[0]->id,
                           'entity_id' => $decoded["entity_id"],
-                          'uid' => $uid ,
+                          'uid' => $user_id,//$uid ,
                           'points' => $points,
                           'created' => $created,
                           'owner' => 1  ])
                         ->execute();
-            }
+            //}
             if($result)
               $success= "User points added successfully";
           }
-
-          
-        //}
       }
       else
       {
         if($decoded['isPublished']==1)
         {  
-          //UnLike give,Recipe,Dheer,Avitha,-5,date,0
-          //echo "action id=".$result[0]->id;
-          // $fields = ['actionid' => $result[0]->id, 'entity_type' => '0', 'entity_id' => '0', 'uid' => '2', 'points' => '1500' , 'created' => '2022-05-17 062:00:00'];
-          // $id = $database->insert('user_points')  ->fields($fields)  ->execute();
       
-          if($decoded["entityType"] == "comment"){
-            foreach ($res_lookup as $action){
-              if($action->name=="Publish comment give"){                
-                $user_id = $give_uid;
-                $owner = 0;
-              }
-              else{
-                $user_id = $uid;
-                $owner = 1;
-              }
-              $result = $database->insert('user_points')
-                        ->fields(['actionid', 'entity_id', 'uid', 'points', 'created', 'owner'])
-                        ->values([
-                          'actionid' => $action->id,
-                          'entity_id' => $decoded["entity_id"],
-                          'uid' => $user_id,
-                          'points' => $action->points,
-                          'created' => date("Y-m-d H:i:s", time()),
-                          'owner' => $owner])
-                        ->execute();
-            }
-          }
-          else{
+          // if($decoded["entityType"] == "comment"){
+          //   foreach ($res_lookup as $action){
+          //     if($action->name=="Publish comment give"){                
+          //       $user_id = $give_uid;
+          //       $owner = 0;
+          //     }
+          //     else{
+          //       $user_id = $uid;
+          //       $owner = 1;
+          //     }
+          //     $result = $database->insert('user_points')
+          //               ->fields(['actionid', 'entity_id', 'uid', 'points', 'created', 'owner'])
+          //               ->values([
+          //                 'actionid' => $action->id,
+          //                 'entity_id' => $decoded["entity_id"],
+          //                 'uid' => $user_id,
+          //                 'points' => $action->points,
+          //                 'created' => date("Y-m-d H:i:s", time()),
+          //                 'owner' => $owner])
+          //               ->execute();
+          //   }
+          // }
+          // else{
             $result = $database->insert('user_points')
             ->fields(['actionid', 'entity_id', 'uid', 'points', 'created', 'owner'])
             ->values([
               'actionid' => $res_lookup[0]->id,
               'entity_id' => $decoded["entity_id"],
-              'uid' => $uid ,
+              'uid' => $user_id,//$uid ,
               'points' => $res_lookup[0]->points,
               'created' => $decoded["createdDate"]." ".$decoded["createdTime"],
               'owner' => 1  ])
@@ -265,7 +242,7 @@ class UserPointsResource extends ResourceBase {
             }
             if($result)
               $success= "User points added successfully";
-        }
+        //}
       }
     }
     return new JsonResponse(['message' => $success]);
