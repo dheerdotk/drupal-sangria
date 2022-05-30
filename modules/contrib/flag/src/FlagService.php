@@ -311,6 +311,31 @@ class FlagService implements FlagServiceInterface {
 
     $flagging->save();
 
+    /*Custom code added on 27-May-2022*/
+    $database = \Drupal::database();
+    if($flag->id()=="bookmark")
+    {
+        $result = $database->update('node__field_total_bookmarks')
+        ->expression('field_total_bookmarks_value', 'field_total_bookmarks_value + 1')
+        ->condition('entity_id', $entity->id(), '=')
+        ->execute();
+    } 
+    if($flag->id()=="like")
+    {
+        $result = $database->update('node__field_total_list_votes')
+        ->expression('field_total_list_votes_value', 'field_total_list_votes_value + 1')
+        ->condition('entity_id', $entity->id(), '=')
+        ->execute();
+    } 
+    if($flag->id()=="share")
+    {
+        $result = $database->update('node__field_total_shares')
+        ->expression('field_total_shares_value', 'field_total_shares_value + 1')
+        ->condition('entity_id', $entity->id(), '=')
+        ->execute();
+    }     
+    /*END*/
+
     return $flagging;
   }
 
@@ -340,6 +365,31 @@ class FlagService implements FlagServiceInterface {
       throw new \LogicException('The entity is not flagged by the user.');
     }
 
+    /*Custom code added on 27-May-2022*/
+    $database = \Drupal::database();
+    if($flagging->get('flag_id')->first()->getValue()['target_id']=="bookmark")
+    {
+        $result = $database->update('node__field_total_bookmarks')
+        ->expression('field_total_bookmarks_value', 'field_total_bookmarks_value - 1')
+        ->condition('entity_id', $flagging->get('entity_id')->first()->getValue()['value'], '=')
+        ->execute();
+    } 
+    if($flagging->get('flag_id')->first()->getValue()['target_id']=="like")
+    {
+        $result = $database->update('node__field_total_list_votes')
+        ->expression('field_total_list_votes_value', 'field_total_list_votes_value - 1')
+        ->condition('entity_id', $flagging->get('entity_id')->first()->getValue()['value'], '=')
+        ->execute();
+    } 
+    // if($flagging->get('flag_id')->first()->getValue()['target_id']=="share")
+    // {
+    //     $result = $database->update('node__field_total_shares')
+    //     ->expression('field_total_shares_value', 'field_total_shares_value - 1')
+    //     ->condition('entity_id', $flagging->get('entity_id')->first()->getValue()['value'], '=')
+    //     ->execute();
+    // }     
+    /*END*/
+    
     $flagging->delete();
   }
 
