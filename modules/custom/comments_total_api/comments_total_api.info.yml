@@ -1,0 +1,5 @@
+name: Total Comments Count API
+type: module
+description: Module for updating total comments count in node__field_total_comments table
+core_version_requirement: ^8.8 || ^9
+package: Example
