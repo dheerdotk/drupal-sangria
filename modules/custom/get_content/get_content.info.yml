@@ -1,0 +1,5 @@
+name: Get Content API
+type: module
+description: Module for fetching different types of node data
+core_version_requirement: ^8.8 || ^9
+package: Example
