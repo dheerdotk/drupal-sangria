@@ -9,13 +9,12 @@ function getCsrfToken(callback) {
 function postNode(csrfToken, node, form1) {
 
   var getUrl = window.location;
-  var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+  var baseUrl = getUrl .protocol + "//" + getUrl.host;
  
   if(getUrl.host=="localhost")
   {
-    baseUrl = baseUrl+"/drupal-9.3.12/drupal-9.3.12/"
+    baseUrl = baseUrl+"/" + getUrl.pathname.split('/')[1] + "/drupal-9.3.12/drupal-9.3.12/";
   }
-
   var url = baseUrl+"user_points_api/user_points_resource"
 
   jQuery.ajax({
