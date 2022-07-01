@@ -140,9 +140,87 @@ class FlaggingStorage extends SqlContentEntityStorage implements FlaggingStorage
    * {@inheritdoc}
    */
   protected function doPostSave(EntityInterface $entity, $update) {
-
     parent::doPostSave($entity, $update);
-
+    
+    /*Custom code added on 01-Jul-2022*/
+    $database = \Drupal::database();
+    if($entity->bundle()=="bookmark")
+    {
+        $query = $database->query("SELECT * from {node__field_total_bookmarks} where entity_id ='".$entity->get('entity_id')->value."'");
+        $res_bookmark = $query->fetchAll();
+        if($res_bookmark)
+        {
+          $result = $database->update('node__field_total_bookmarks')
+                    ->expression('field_total_bookmarks_value', 'field_total_bookmarks_value + 1')
+                    ->condition('entity_id', $entity->get('entity_id')->value, '=')
+                    ->execute();
+        }
+        else
+        {
+          $result = $database->insert('node__field_total_bookmarks')
+                    ->fields(['bundle', 'entity_id', 'revision_id', 'langcode', 'delta', 'field_total_bookmarks_value'])
+                    ->values([
+                      'bundle' => strtolower(node_get_type_label(\Drupal::entityTypeManager()->getStorage('node')->load($entity->get('entity_id')->value))),
+                      'entity_id' => $entity->get('entity_id')->value,
+                      'revision_id' =>\Drupal::entityTypeManager()->getStorage('node')->getLatestRevisionId($entity->get('entity_id')->value),
+                      'langcode' => \Drupal::languageManager()->getCurrentLanguage()->getId(),
+                      'delta' => 0,
+                      'field_total_bookmarks_value' => 1  ])
+                    ->execute();
+        }
+    } 
+    if($entity->bundle()=="like")
+    {
+        $query = $database->query("SELECT * from {node__field_total_list_votes} where entity_id ='".$entity->get('entity_id')->value."'");
+        $res_like = $query->fetchAll();
+        if($res_like)
+        {
+          $result = $database->update('node__field_total_list_votes')
+                    ->expression('field_total_list_votes_value', 'field_total_list_votes_value + 1')
+                    ->condition('entity_id', $entity->get('entity_id')->value, '=')
+                    ->execute();
+        }
+        else
+        {
+          $result = $database->insert('node__field_total_list_votes')
+                    ->fields(['bundle', 'entity_id', 'revision_id', 'langcode', 'delta', 'field_total_list_votes_value'])
+                    ->values([
+                      'bundle' => strtolower(node_get_type_label(\Drupal::entityTypeManager()->getStorage('node')->load($entity->get('entity_id')->value))),
+                      'entity_id' => $entity->get('entity_id')->value,
+                      'revision_id' =>\Drupal::entityTypeManager()->getStorage('node')->getLatestRevisionId($entity->get('entity_id')->value),
+                      'langcode' => \Drupal::languageManager()->getCurrentLanguage()->getId(),
+                      'delta' => 0,
+                      'field_total_list_votes_value' => 1  ])
+                    ->execute();
+        }
+    } 
+    if($entity->bundle()=="share")
+    {
+        $query = $database->query("SELECT * from {node__field_total_shares} where entity_id ='".$entity->get('entity_id')->value."'");
+        $res_share = $query->fetchAll();
+        if($res_share)
+        {
+          $result = $database->update('node__field_total_shares')
+                    ->expression('field_total_shares_value', 'field_total_shares_value + 1')
+                    ->condition('entity_id', $entity->get('entity_id')->value, '=')
+                    ->execute();
+        }
+        else
+        {
+          $result = $database->insert('node__field_total_shares')
+                    ->fields(['bundle', 'entity_id', 'revision_id', 'langcode', 'delta', 'field_total_shares_value'])
+                    ->values([
+                      'bundle' => strtolower(node_get_type_label(\Drupal::entityTypeManager()->getStorage('node')->load($entity->get('entity_id')->value))),
+                      'entity_id' => $entity->get('entity_id')->value,
+                      'revision_id' =>\Drupal::entityTypeManager()->getStorage('node')->getLatestRevisionId($entity->get('entity_id')->value),
+                      'langcode' => \Drupal::languageManager()->getCurrentLanguage()->getId(),
+                      'delta' => 0,
+                      'field_total_shares_value' => 1  ])
+                    ->execute();
+        }
+    }     
+    /*END*/
+    
     // After updating or creating a flagging, add it to the cached flagging by entity if already in static cache.
     if ($entity->get('global')->value) {
       // If the global flags by entity for this entity have already been cached, then add the newly created flagging.
@@ -162,7 +240,35 @@ class FlaggingStorage extends SqlContentEntityStorage implements FlaggingStorage
    * {@inheritdoc}
    */
   protected function doDelete($entities) {
-
+    /*Custom code added on 01-Jul-2022*/
+    $database = \Drupal::database();
+    foreach ($entities as $entity) { 
+      if($entity->bundle()=="bookmark")
+      {
+        $query = $database->query("SELECT * from {node__field_total_bookmarks} where entity_id ='".$entity->get('entity_id')->value."'");
+        $res_bookmark = $query->fetchAll();
+        if($res_bookmark[0]->field_total_bookmarks_value>0)
+        {
+          $result = $database->update('node__field_total_bookmarks')
+          ->expression('field_total_bookmarks_value', 'field_total_bookmarks_value - 1')
+          ->condition('entity_id', $entity->get('entity_id')->value, '=')
+          ->execute();
+        }
+      } 
+      if($entity->bundle()=="like")
+      {
+        $query = $database->query("SELECT * from {node__field_total_list_votes} where entity_id ='".$entity->get('entity_id')->value."'");
+        $res_like = $query->fetchAll();
+        if($res_like[0]->field_total_list_votes_value>0)
+        {
+          $result = $database->update('node__field_total_list_votes')
+          ->expression('field_total_list_votes_value', 'field_total_list_votes_value - 1')
+          ->condition('entity_id', $entity->get('entity_id')->value, '=')
+          ->execute();
+        }
+      } 
+    }
+    /*END*/
     parent::doDelete($entities);
 
     /** @var \Drupal\Core\Entity\ContentEntityInterface[] $entities */
