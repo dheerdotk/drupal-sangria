@@ -218,7 +218,33 @@ class FlaggingStorage extends SqlContentEntityStorage implements FlaggingStorage
                       'field_total_shares_value' => 1  ])
                     ->execute();
         }
-    }     
+    }  
+    
+    if($entity->bundle()=="like_comment")
+    {
+        $query = $database->query("SELECT * from {comment__field_total_comments_like} where entity_id ='".$entity->get('entity_id')->value."'");
+        $res_like = $query->fetchAll();
+        if($res_like)
+        {
+          $result = $database->update('comment__field_total_comments_like')
+                    ->expression('field_total_comments_like_value', 'field_total_comments_like_value + 1')
+                    ->condition('entity_id', $entity->get('entity_id')->value, '=')
+                    ->execute();
+        }
+        else
+        {
+          $result = $database->insert('comment__field_total_comments_like')
+                    ->fields(['bundle', 'entity_id', 'revision_id', 'langcode', 'delta', 'field_total_comments_like_value'])
+                    ->values([
+                      'bundle' => strtolower(node_get_type_label(\Drupal::entityTypeManager()->getStorage('node')->load($entity->get('entity_id')->value))),
+                      'entity_id' => $entity->get('entity_id')->value,
+                      'revision_id' =>\Drupal::entityTypeManager()->getStorage('node')->getLatestRevisionId($entity->get('entity_id')->value),
+                      'langcode' => \Drupal::languageManager()->getCurrentLanguage()->getId(),
+                      'delta' => 0,
+                      'field_total_comments_like_value' => 1  ])
+                    ->execute();
+        }
+    } 
     /*END*/
     
     // After updating or creating a flagging, add it to the cached flagging by entity if already in static cache.
@@ -263,6 +289,18 @@ class FlaggingStorage extends SqlContentEntityStorage implements FlaggingStorage
         {
           $result = $database->update('node__field_total_list_votes')
           ->expression('field_total_list_votes_value', 'field_total_list_votes_value - 1')
+          ->condition('entity_id', $entity->get('entity_id')->value, '=')
+          ->execute();
+        }
+      } 
+      if($entity->bundle()=="like_comment")
+      {
+        $query = $database->query("SELECT * from {comment__field_total_comments_like} where entity_id ='".$entity->get('entity_id')->value."'");
+        $res_like = $query->fetchAll();
+        if($res_like[0]->field_total_comments_like_value>0)
+        {
+          $result = $database->update('comment__field_total_comments_like')
+          ->expression('field_total_comments_like_value', 'field_total_comments_like_value - 1')
           ->condition('entity_id', $entity->get('entity_id')->value, '=')
           ->execute();
         }
